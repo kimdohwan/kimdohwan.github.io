@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>스킬 트리</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/codingtest/0201/01/01/skill_tree.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">스킬 트리</h2>
+     <p class="post-meta"><time datetime="0201-01-01T00:01:44+08:27" itemprop="datePublished">Jan 1, 0201</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <ul>
+  <li>
+    <p>문제 설명<br />
+선행 스킬이란 어떤 스킬을 배우기 전에 먼저 배워야 하는 스킬을 뜻합니다.</p>
+
+    <p>예를 들어 선행 스킬 순서가 스파크 → 라이트닝 볼트 → 썬더일때, 썬더를 배우려면 먼저 라이트닝 볼트를 배워야 하고, 라이트닝 볼트를 배우려면 먼저 스파크를 배워야 합니다.</p>
+
+    <p>위 순서에 없는 다른 스킬(힐링 등)은 순서에 상관없이 배울 수 있습니다. 따라서 스파크 → 힐링 → 라이트닝 볼트 → 썬더와 같은 스킬트리는 가능하지만, 썬더 → 스파크나 라이트닝 볼트 → 스파크 → 힐링 → 썬더와 같은 스킬트리는 불가능합니다.</p>
+
+    <p>선행 스킬 순서 skill과 유저들이 만든 스킬트리1를 담은 배열 skill_trees가 매개변수로 주어질 때, 가능한 스킬트리 개수를 return 하는 solution 함수를 작성해주세요.</p>
+  </li>
+  <li>
+    <p>제한 조건</p>
+
+    <ul>
+      <li>스킬은 알파벳 대문자로 표기하며, 모든 문자열은 알파벳 대문자로만 이루어져 있습니다.</li>
+      <li>스킬 순서와 스킬트리는 문자열로 표기합니다.</li>
+      <li>예를 들어, C → B → D 라면 CBD로 표기합니다</li>
+      <li>선행 스킬 순서 skill의 길이는 2 이상 26 이하이며, 스킬은 중복해 주어지지 않습니다.</li>
+      <li>skill_trees는 길이 1 이상 20 이하인 배열입니다.</li>
+      <li>skill_trees의 원소는 스킬을 나타내는 문자열입니다.</li>
+      <li>skill_trees의 원소는 길이가 2 이상 26 이하인 문자열이며, 스킬이 중복해 주어지지 않습니다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>입출력 예</p>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">skill</th>
+      <th style="text-align: center">skill_trees</th>
+      <th style="text-align: center">return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">CBD</td>
+      <td style="text-align: center">[BACDE, CBADF, AECB, BDA]</td>
+      <td style="text-align: center">2</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>입출력 예 설명<br />
+BACDE: B 스킬을 배우기 전에 C 스킬을 먼저 배워야 합니다. 불가능한 스킬트립니다.<br />
+CBADF: 가능한 스킬트리입니다.<br />
+AECB: 가능한 스킬트리입니다.<br />
+BDA: B 스킬을 배우기 전에 C 스킬을 먼저 배워야 합니다. 불가능한 스킬트리입니다.</li>
+</ul>
+
+<hr />
+
+<p>코드</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 내가 푼 코드
+def solution(skill, skill_trees):
+    answer = 0 
+    for skill_tree in skill_trees:
+        i = 0 
+        for user_skill in skill_tree:
+            if user_skill in skill:
+                if user_skill == skill[i]:
+                    i += 1
+                else:  # 순서가 다르면 pass
+                    break
+        else:
+            answer += 1            
+    return answer
+</code></pre></div></div>
+
+<p>위 코드의 경우 인덱스 체크를 위해 i 사용하였다. 또한 처음 풀었을 때는 for else 를 사용하지 않고 문제를 풀었기 때문에 변수 연산도 더 필요했다.<br />
+밑 코드의 경우 list 를 새로 만들어 pop 을 통해(queue) 내가 추가한 인덱스 연산을 대신했다. 이 경우가 더 좋은코드 같으니 참고할 것. 또한 for else 도 중요한 부분.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 다른 사람 풀이
+def solution(skill, skill_trees):
+    answer = 0 
+    for skill_tree in skill_trees:
+        l_skill = list(skill)
+        for s in skill_tree:
+            if s in skill:
+                if s != l_skill.pop(0):
+                    break
+        else:
+            answer += 1
+    return answer
+
+</code></pre></div></div>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>

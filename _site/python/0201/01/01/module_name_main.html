@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>[Magic Method] __module__, __name__, __main__</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/python/0201/01/01/module_name_main.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">[Magic Method] __module__, __name__, __main__</h2>
+     <p class="post-meta"><time datetime="0201-01-01T00:01:44+08:27" itemprop="datePublished">Jan 1, 0201</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="테스트-클래스-작성">테스트 클래스 작성</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class TestClass:
+    '''
+    이것은 docstring 입니다
+    '''
+    def __init__(self, name):
+        self.name = name
+
+    def method_function(self):
+        '''
+        함수안의 docstring
+        '''
+        print('this is method function')
+
+    def __call__(self, x, y):
+        return x + y
+
+    def __getattr__(self, attribute):
+        return f'{attribute} 는 없다 이놈아'
+
+
+def common_function():
+    print('this is common function')
+
+a = TestClass('안녕')
+b = common_function
+
+
+</code></pre></div></div>
+
+<h3 id="__module__-__name__-__main__"><code class="highlighter-rouge">__module__, __name__, __main__</code></h3>
+
+<p><code class="highlighter-rouge">__module__</code> 해당 객체가 속한 스크립트의 module name(파일명)을 보여준다.<br />
+이 때 스크립트는 당연히 .py(파이썬 파일).<br />
+단 해당 스크립트가 현재 “실행중”일 경우 module name 은 <code class="highlighter-rouge">"__main__"</code>이 된다.</p>
+
+<p><code class="highlighter-rouge">if __name__ = "__main__":</code> 을 자주 보게되는데<br />
+이 경우 실행중인 스크립트의 module name 은 <code class="highlighter-rouge">__main__</code> 이 되므로<br />
+해당 스크립트가 import 되어 사용되는지 여부를 알기 위해서<br />
+또는<br />
+프로그램의 시작점일 때만 특정 코드를 실행하기위해 사용된다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print(
+    TestClass.__module__,
+    a.__module__, 
+    a.method_function.__module__,
+    b.__module__
+)
+
+import random
+
+# a는 __main__.TestClass random 은 Random.choice
+print(a, '\n', random.choice)
+# module 과 name 을 헷갈리말자 
+# 함수나 클래스에 사용하는 __name__과 스크립트 실행여부를 알기위한 용도의 __name__은 
+# 같은 원리이지만 용도가 다른느낌이니까 헷갈리지말자
+print(random.choice.__module__, random.choice.__name__)
+
+# 현재 실행중이므로 __main__ 리턴)
+print(__name__)
+
+'''결과값
+__main__ __main__ __main__ __main__
+&lt;__main__.TestClass object at 0x7f553564eef0&gt; 
+ &lt;bound method Random.choice of &lt;random.Random object at 0x55eed7cfa668&gt;&gt;
+random choice
+__main__'''
+
+</code></pre></div></div>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>

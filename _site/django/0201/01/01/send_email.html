@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Django 에서 메일전송하기(DRF 예시 코드)</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/django/0201/01/01/send_email.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">Django 에서 메일전송하기(DRF 예시 코드)</h2>
+     <p class="post-meta"><time datetime="0201-01-01T00:01:44+08:27" itemprop="datePublished">Jan 1, 0201</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="django-gmail-setting">django gmail setting</h3>
+
+<ul>
+  <li>
+    <p>gmail 기본 셋팅</p>
+
+    <ol>
+      <li>IMAP 사용함 설정</li>
+      <li>보안수준 낮은 앱 허용</li>
+    </ol>
+  </li>
+  <li>
+    <p>settings.py</p>
+
+    <pre><code class="language-python1">EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = '메일주소'
+EMAIL_HOST_PASSWORD = '비밀번호'
+SERVER_EMAIL = '메일주소'
+DEFAULT_FROM_MAIL = '아이디'
+</code></pre>
+  </li>
+  <li>
+    <p>test ‘send email’ in shell_plus</p>
+
+    <pre><code class="language-python1">&gt;&gt;&gt; from django.core.mail import EmailMessage
+&gt;&gt;&gt; email = EmailMessage('subject text', 'body text', to=['id@gmail.com'])
+&gt;&gt;&gt; email.send()
+</code></pre>
+  </li>
+</ul>
+
+<h3 id="url-설정">url 설정</h3>
+
+<ul>
+  <li>POST ‘signup/’ : 회원가입 후 이메일 발송</li>
+  <li>GET ‘activate/’ : 인증 링크 클릭 시 user.is_active = True 로 활성화</li>
+</ul>
+
+<h3 id="회원가입-및-이메일-전송-api">회원가입 및 이메일 전송 API</h3>
+
+<ul>
+  <li>
+    <p>api.py(view)</p>
+
+    <pre><code class="language-python1">class UserList(APIView):
+  def post(self, request):
+      serializer = UserSerializer(data=request.data)
+      if serializer.is_valid():
+          serializer.save()
+          return Response(serializer.data, status=status.HTTP_201_CREATED)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+</code></pre>
+  </li>
+  <li>
+    <p>serializer.py</p>
+
+    <pre><code class="language-python1">class UserSerializer(serializers.ModelSerializer):
+  username = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
+  password = serializers.SlugField(max_length=12, min_length=1, allow_blank=False, write_only=True)
+  nickname = serializers.CharField(max_length=20, validators=[UniqueValidator(queryset=User.objects.all())])
+    
+  class Meta:
+      model = User
+    
+      fields = (
+          'pk',
+          'username',
+          'password',
+          'nickname',
+          'img_profile',
+      )
+    
+  def validate_password(self, value):
+      if value == self.initial_data.get('password1'):
+          return value
+      raise ValidationError('(password, password1) 불일치')
+    
+  def create(self, validated_data):
+      user = User.objects.create_user(
+          username=validated_data['username'],
+          password=validated_data['password'],
+          nickname=validated_data['nickname'],
+          # img_profile=validated_data['img_profile'],
+      )
+      user.is_active = False
+      user.save()
+    
+      message = render_to_string('user/account_activate_email.html', {
+          'user': user,
+          'domain': 'localhost:8000',
+          'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode('utf-8'),
+          'token': account_activation_token.make_token(user),
+      })
+    
+      mail_subject = 'test'
+      to_email = user.username
+      email = EmailMessage(mail_subject, message, to=[to_email])
+      email.send()
+    
+      return validated_data
+</code></pre>
+  </li>
+  <li>
+    <p>token.py</p>
+
+    <pre><code class="language-python1">class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
+  def _make_hash_value(self, user, timestamp):
+      return (
+              six.text_type(user.pk) + six.text_type(timestamp) + six.text_type(user.is_active)
+      )
+account_activation_token = AccountActivationTokenGenerator()
+</code></pre>
+  </li>
+  <li>
+    <p>html 파일(이메일에 발송될 내용)</p>
+
+    <pre><code class="language-python1">{ { user.nickname } } 님 링크를 클릭해 계정을 활성화 해주세요
+http://{ % url 'user:activate' uidb64=uid token=token % }
+</code></pre>
+  </li>
+  <li>
+    <p>api.py(view) 유져가 이메일 링크를 누르면 동작하는 부분</p>
+
+    <pre><code class="language-python1">class UserActivate(APIView):
+  permission_classes = (permissions.AllowAny,)
+    
+  def get(self, request, uidb64, token):
+      try:
+          uid = force_text(urlsafe_base64_decode(uidb64.encode('utf-8')))
+          user = User.objects.get(pk=uid)
+      except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+          user = None
+    
+      try:
+          if user is not None and account_activation_token.check_token(user, token):
+              user.is_active = True
+              user.save()
+              return HttpResponse(user.email + '계정이 활성화 되었습니다', status=status.HTTP_200_OK)
+          else:
+              return HttpResponse('만료된 링크입니다', status=status.HTTP_400_BAD_REQUEST)
+    
+      except Exception as e:
+          print(traceback.format_exc())
+</code></pre>
+  </li>
+</ul>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>

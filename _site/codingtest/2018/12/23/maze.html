@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>미로 생성 및 길찾기</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/codingtest/2018/12/23/maze.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">미로 생성 및 길찾기</h2>
+     <p class="post-meta"><time datetime="2018-12-23T00:00:00+09:00" itemprop="datePublished">Dec 23, 2018</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>djikstra 알고리즘</p>
+
+<p>미로를 생성한 후 최적 경로를 찾는 코드를 작성해보았다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randrange</span><span class="p">,</span> <span class="n">shuffle</span><span class="p">,</span> <span class="n">seed</span>
+
+
+<span class="k">class</span> <span class="nc">Maze</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">height</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hor</span> <span class="o">=</span> <span class="p">[[</span><span class="s">"##"</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="p">[</span><span class="s">'#'</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ver</span> <span class="o">=</span> <span class="p">[[</span><span class="s">"# "</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="p">[</span><span class="s">'#'</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[[]]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visited</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maze</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minimum_path</span> <span class="o">=</span> <span class="n">f</span><span class="s">'{self.__repr__()} 풀지 못한 미로'</span>
+
+    <span class="c1"># 미로의 노드(길 1칸을 의미) 갯수. node size - 1 은 edge 의 최댓값이 된다.
+</span>    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">node_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maze</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="s">' '</span><span class="p">]:</span>
+                    <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">n</span>
+
+    <span class="c1"># 미로를 생성 return type = str
+</span>    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">maze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">start_x</span><span class="p">,</span> <span class="n">start_y</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">),</span> <span class="n">randrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_map</span><span class="p">(</span><span class="n">start_x</span><span class="p">,</span> <span class="n">start_y</span><span class="p">)</span>
+
+        <span class="n">maze</span> <span class="o">=</span> <span class="s">''</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ver</span><span class="p">):</span>
+            <span class="n">maze</span> <span class="o">+=</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="p">[</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span> <span class="o">+</span> <span class="p">[</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">maze</span>
+
+    <span class="c1"># maze() 에서 사용되는 재귀함수
+</span>    <span class="k">def</span> <span class="nf">_create_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">direction</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span> <span class="ow">in</span> <span class="n">direction</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">yy</span><span class="p">][</span><span class="n">xx</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">xx</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hor</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yy</span><span class="p">)][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="s">'# '</span>
+            <span class="k">if</span> <span class="n">yy</span> <span class="o">==</span> <span class="n">y</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ver</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xx</span><span class="p">)]</span> <span class="o">=</span> <span class="s">'  '</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_create_map</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_point</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_start_end_point</span><span class="p">(</span><span class="n">random_point</span><span class="o">=</span><span class="n">random_point</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">),</span> <span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_start_end_point</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">visited</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_copy_multidimensional_list</span><span class="p">(</span>
+            <span class="n">li</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">=</span><span class="s">'#'</span><span class="p">,</span>
+            <span class="n">target_data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_copy_multidimensional_list</span><span class="p">(</span>
+            <span class="n">li</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">node_size</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">=</span><span class="s">'#'</span><span class="p">,</span>
+            <span class="c1"># target_data=sys.maxsize,
+</span>            <span class="n">target_data</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">[</span><span class="n">sy</span><span class="p">][</span><span class="n">sx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_copy_multidimensional_list</span><span class="p">(</span>
+            <span class="n">li</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">=</span><span class="s">'#'</span><span class="p">,</span>
+            <span class="n">target_data</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">[</span><span class="n">sy</span><span class="p">][</span><span class="n">sx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_find_path</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_minimum_path</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span>
+
+        <span class="n">solve_maze</span> <span class="o">=</span> <span class="s">''</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span><span class="p">:</span>
+            <span class="n">solve_maze</span> <span class="o">+=</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">minimum_path</span> <span class="o">=</span> <span class="n">solve_maze</span>
+
+    <span class="k">def</span> <span class="nf">_find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="ow">in</span> <span class="n">direction</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">[</span><span class="n">yy</span><span class="p">][</span><span class="n">xx</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">[</span><span class="n">yy</span><span class="p">][</span><span class="n">xx</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">[</span><span class="n">yy</span><span class="p">][</span><span class="n">xx</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">[</span><span class="n">yy</span><span class="p">][</span><span class="n">xx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_find_path</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">_get_minimum_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">[</span><span class="n">ey</span><span class="p">][</span><span class="n">ex</span><span class="p">]</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_change_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">'.'</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">):</span>
+                <span class="k">break</span>
+
+    <span class="c1"># 출발 ,도착 지점의 index(좌표) 를 계산.(리스트로부터)
+</span>    <span class="k">def</span> <span class="nf">_get_start_end_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">),</span> <span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_maze</span><span class="p">[</span><span class="n">y</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">'S'</span><span class="p">:</span>
+                    <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+                <span class="k">elif</span> <span class="n">s</span> <span class="o">==</span> <span class="s">'E'</span><span class="p">:</span>
+                    <span class="n">ex</span><span class="p">,</span> <span class="n">ey</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">),</span> <span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span>
+
+    <span class="c1"># 출발, 도착 지점을 self._maze 에 만듭니다. random_point=True 라면 랜덤으로 지점 생성합니다.
+</span>    <span class="k">def</span> <span class="nf">set_start_end_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_point</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">start_point</span><span class="p">,</span> <span class="n">end_point</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">random_point</span><span class="p">:</span>
+            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">start_point</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">))</span>
+                <span class="n">end_point</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">start_point</span> <span class="o">!=</span> <span class="n">end_point</span> <span class="ow">and</span> <span class="s">' '</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">[</span><span class="n">start_point</span><span class="p">]</span> <span class="ow">and</span> <span class="s">' '</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">[</span><span class="n">end_point</span><span class="p">]:</span>
+                    <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">' '</span><span class="p">:</span>
+                    <span class="n">start_point</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="k">break</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">' '</span><span class="p">:</span>
+                    <span class="n">end_point</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="k">break</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">[:</span><span class="n">start_point</span><span class="p">]</span> <span class="o">+</span> <span class="s">'S'</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">[</span><span class="n">start_point</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">[:</span><span class="n">end_point</span><span class="p">]</span> <span class="o">+</span> <span class="s">'E'</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span><span class="p">[</span><span class="n">end_point</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+
+    <span class="c1"># 문자열을 변경해주는 함수. 코드 간결화하기 위해 사용
+</span>    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">_change_string</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">to_string</span><span class="p">):</span>
+        <span class="n">string</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="n">y</span><span class="p">][:</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="n">to_string</span> <span class="o">+</span> <span class="n">string</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+
+    <span class="c1"># 이차원 배열을 복사해주는 리스트, data 를 기본 항목으로 넣으며, target 에 해당되는 항목을 target_data 로 변환해준다.
+</span>    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">_copy_multidimensional_list</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">multidimensional_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">'li'</span><span class="p">])):</span>
+            <span class="n">multidimensional_list</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">'li'</span><span class="p">][</span><span class="n">i</span><span class="p">])):</span>
+                <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'li'</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'target'</span><span class="p">):</span>
+                    <span class="n">multidimensional_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">'target_data'</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">multidimensional_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">'data'</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">multidimensional_list</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s">'Maze({self.w}, {self.h})'</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maze</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># seed()
+</span>    <span class="n">m1</span> <span class="o">=</span> <span class="n">Maze</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+    <span class="n">m1</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">random_point</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">minimum_path</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">node_size</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m1</span><span class="o">.</span><span class="n">distance</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m1</span><span class="o">.</span><span class="n">prev</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m1</span><span class="o">.</span><span class="n">visited</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div></div>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>이차원 배열 생성 시 asterisk(*) 와 for loop 사용의 차이점</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/python/0201/01/01/asterisk_for.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">이차원 배열 생성 시 asterisk(*) 와 for loop 사용의 차이점</h2>
+     <p class="post-meta"><time datetime="0201-01-01T00:01:44+08:27" itemprop="datePublished">Jan 1, 0201</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h1 id="이차원-배열-생성과-값-변경">이차원 배열 생성과 값 변경</h1>
+
+<h3 id="문제-상황">문제 상황</h3>
+
+<p>미로 생성 코드의 이차원 배열 생성 코드를 수정한 후 값 변경 시 모든 list 의 값이 변경됨</p>
+
+<ul>
+  <li>
+    <p>정상 코드(퍼온 코드)</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vis</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">vis</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># 값 변경 전
+</span><span class="o">&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="c1"># 값 변경 후
+</span><span class="o">&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>문제 발생 코드(내가 작성)</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vis</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">+</span> <span class="p">[[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">vis</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># 값 변경 전
+</span><span class="o">&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="c1"># 값 변경 후 
+</span><span class="o">&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <p>vis[0][1] 이라고 지정했음에도 vis 의 모든 값이 바뀌게되는 문제</p>
+  </li>
+</ul>
+
+<h3 id="문제-원인">문제 원인</h3>
+
+<p>이차원 배열 생성 시 asterisk(<code class="highlighter-rouge">*</code>) 를 사용해서 list 를 생성 했기 때문이다.<br />
+정확히 말하자만 생성이 아니라 object 를 reference 한 코드로 동작한다.</p>
+
+<p>for loop 를 사용한 코드는 너무 보기 복잡해서 내 방식으로 코드를 수정해보았다.<br />
+하지만 asterisk(<code class="highlighter-rouge">*</code>)와 for loop 의 list append 의 차이점을 제대로 인식하지 못했다.</p>
+
+<p>vis[o] = [0, 1, 0, 0] 으로 수정한다면 정상적으로 작동한다. 왜냐하면 vis[0] 의 참조값 자체를 바꿔주었기 때문이다. 현재 vis[0], vis[1], vis[2], vis[3] 은 모두 같은 참조값을 가지는 객체이다. 왜냐하면 asterisk(<code class="highlighter-rouge">*</code>)를 통해 값을 복사했기 때문이다.</p>
+
+<p>하지만 list comprehension 의 for loop 를 사용할 경우, data 는 같아도 서로 다른 참조값을 가지는 별개의 객체(vis[0], vis[1], vis[2], vis[3])를 가지게 된다.</p>
+
+<h3 id="참고">참고</h3>
+
+<p>위 상황은 mutable type object 인 list 이기 떄문에 발생한 문제이다.<br />
+immutable type 일 경우 위와 같은 문제가 발생할 수 없다. 당연한 이야기.</p>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>

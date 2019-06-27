@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>5. Hash Table - Linear Probing in Open Addressing</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/datastructure/2018/11/27/linear_probing.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">5. Hash Table - Linear Probing in Open Addressing</h2>
+     <p class="post-meta"><time datetime="2018-11-27T00:00:00+09:00" itemprop="datePublished">Nov 27, 2018</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Linear Probing in Open Addressing<br />
+개방주소방식의 선형조사<br />
+colision 발생 시 인덱스 +1 방식으로 해결</p>
+
+<ul>
+  <li>문제점<br />
+prime clustering(1차 군집화)<br />
+‘1차’는 다른 해쉬방법에서 벌어지는 clustering 현상을 구별하기위한 단어일뿐이다</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class LinearProbing:
+    def __init__(self, size):
+        self.M = size # hash value 를 구하기 위한 값으로 사용(hash table 의 크기)
+        self.a = [None] * size # key 를 저장하는 hash table
+        self.d = [None] * size # data 를 저장하는 hash table
+
+    def hash(self, key): # hash function
+        return key % self.M # 나머지 값이 hash value(hash table index)
+
+    def put(self, key, data):
+        initial_position = self.hash(key) # hash value
+        i = initial_position
+        j = 0
+        while True:
+            if self.a[i] == None: # 해당 위치가 비어있다면 저장
+                self.a[i] = key
+                self.d[i] = data
+                return '저장 완료'
+            if self.a[i] == key: # 이미 key 존재하므로 data 만 수정/갱신
+                self.d[i] = data
+                return '수정/갱신 완료(data, key is aleady existed)'
+            # self.a[i] 에 비어있지않고 다른 key 가 이미 존재하는 경우
+            j += 1 # 순차적으로 빈 공간을 탐색하기위해 인덱스 증가
+            i = (initial_position + j) % self.M # hash value(+1)
+            if i == initial_position: # 한바퀴 돌아서 제자리로 돌아올 경우(저장 실패)
+                break
+
+    # 함수에서는 return 이 나올경우 어떤 스코프에 해당하던(들여쓰기가 몇번 되었건간에)
+    # return 으로 인해 함수가 즉시 종료된다 
+
+    def get(self, key):
+        initial_position = self.hash(key)
+        i = initial_position
+        j = 1 # 위에서는 j를 0 으로 해놓고 여기서는 1로 시작하네. 변태인가?
+        while self.a[i] != None:
+            if self.a[i] == key:
+                return self.d[i]
+            i = (initial_position + j) % self.M
+            j += 1 # put 은 0, get 은 1부터 시작이라 j += 1 코드 순서가 다름
+            if i == initial_position: # 한바퀴 돌아서 제자리로 돌아옴
+                return None # 존재하지 않는 key 를 검색한 경우
+        return None # 존재하지 않는 key 검색(while 문의 None 은 한바퀴 돌은 경우)
+
+    def print_table(self):
+        for i in range(self.M): # 인덱스 출력 
+            print('{:4}'.format(str(i)), ' ', end='')
+        print('')
+        for i in range(self.M): # key 출력
+            print('{:4}'.format(str(self.a[i])), ' ', end='')
+        print('')
+        for i in range(self.M):
+            print(f'{self.d[i]}', ' ', end='')
+</code></pre></div></div>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>

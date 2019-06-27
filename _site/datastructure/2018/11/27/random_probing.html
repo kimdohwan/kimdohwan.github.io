@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>5. Hash Table Random Probing in Open Addressing</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/datastructure/2018/11/27/random_probing.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">5. Hash Table Random Probing in Open Addressing</h2>
+     <p class="post-meta"><time datetime="2018-11-27T00:00:00+09:00" itemprop="datePublished">Nov 27, 2018</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>점프 시퀀스를 무작위화<br />
+파이선의 딕셔너리가 이 방식을 취함<br />
+문제점</p>
+
+<ul>
+  <li>3차 군집화(tertiary clusting) 2차 군집화와 유사</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import random
+
+class RandProbing:
+
+    def __init__(self, size):
+        self.M = size
+        self.a = [None] * size
+        self.d = [None] * size
+        self.N = 0 # 저장된 항목 수 
+
+    def hash(self, key):
+        return key % self.M
+
+    def put(self, key, data):
+        initial_position = self.hash(key)
+        i = initial_position
+        o = 0
+        random.seed(1)
+        while True:
+            if self.a[i] == None:
+                self.a[i] = key
+                self.d[i] = data
+                self.N += 1
+                return print(f'저장완료 {data}')
+            if self.a[i] == key:
+                self.d[i] = data
+                return print(f'수정완료 {data}')
+            j = random.randint(1, 99)
+            i = (initial_position + j) % self.M
+            o += 1
+            if self.N &gt; self.M: # 무쓸모 
+                break
+            if o == 1000:
+                print('1000번 초과, 저장공간 부족', data)
+                break
+
+    def get(self, key):
+        initial_position = self.hash(key)
+        i = initial_position
+        j = 1
+        random.seed(1)
+        o = 0
+        while self.a[i] != None:
+            if self.a[i] == key:
+                return self.d[i]
+            i = (initial_position + random.randint(1, 99)) % self.M
+            o += 1
+            if o == 1000:
+                print(f'존재하지 않는 key: {key}')
+                break
+
+    def print_table(self):
+        for i in range(self.M): # 인덱스 출력 
+            print(f'{i} - {self.a[i]}: {self.d[i]}')
+#         for i in range(self.M): # key 출력
+#             print('{:4}'.format(str(self.a[i])), ' ', end='')
+#         for i in range(self.M):
+#             print(f'{self.d[i]}', ' ', end='')
+</code></pre></div></div>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>

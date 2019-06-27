@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Django 앱에 Facebook Login  기능 구현하기</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="canonical" href="http://localhost:4000/django/0201/01/01/facebook_login.html">
+  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+
+  	<!-- 폰트 및 코드 하이라이팅 -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <div class='wrapper'>
+
+    <!--<input data-function='swipe' id='swipe' type='checkbox'>-->
+    <!--<label data-function='swipe' for='swipe' class="btn btn-default" >Menu</label>-->
+
+
+    <!--<div class='sidebar menu'>-->
+    <div id="test">
+
+
+        <div class="menu">
+
+            <div class="navigation">
+                <ul>
+                    
+
+                    
+                    
+                    
+                    
+                    <li><a href="/">Home</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+
+
+            <hr>
+
+            <div class="navigation">
+                <ul>
+                    
+                    <li>
+                        <a href="/categories/Python">Python</a></li>
+                    
+                    <li>
+                        <a href="/categories/Etc">Etc</a></li>
+                    
+                    <li>
+                        <a href="/categories/CodingTest">CodingTest</a></li>
+                    
+                    <li>
+                        <a href="/categories/AWS">AWS</a></li>
+                    
+                    <li>
+                        <a href="/categories/Django">Django</a></li>
+                    
+                    <li>
+                        <a href="/categories/DataStructure">DataStructure</a></li>
+                    
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
+            <p>One sentence introducing yourself or what you do</p>
+
+            <hr>
+
+
+            <div id="social-icons">
+                <ul>
+                    <!--<li><a href="http://facebook.com/username"><i class="fa fa-facebook"></i></a></li>-->
+                    <!--<li><a href="https://mx.linkedin.com/in/username"><i class="fa fa-linkedin"></i></a></li>-->
+                    <li><a href="http://github.com/username"><i class="fa fa-github"></i></a></li>
+                    <!--<li><a href="http://username.deviantart.com"><i class="fa fa-deviantart"></i></a></li>-->
+                    <!--<li><a href="http://codepen.io/username"><i class="fa fa-codepen"></i></a></li>-->
+                </ul>
+            </div>
+
+            <hr>
+
+            <!--<p>© Taken theme<p>-->
+            <!--<p>Powered by Jekyll<p>-->
+
+        </div>
+    </div>
+
+    <div class='content'>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+     <h2 class="post-title">Django 앱에 Facebook Login  기능 구현하기</h2>
+     <p class="post-meta"><time datetime="0201-01-01T00:01:44+08:27" itemprop="datePublished">Jan 1, 0201</time></p>
+      <hr>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>페이스북의 로그인으로 user 생성과 로그인을 대신할 수 있다<br />
+facebook login process라고 검색, 이미지로 이해하자</p>
+
+<p>developers.facebook.com 을 참고<br />
+facebook login 문서와 그래픽 API를 사용한다.<br />
+login.html파일에서 시작해 views.py로 이어진다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">urls</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">path</span><span class="p">(</span><span class="s">'facebook-login/'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">facebook_login</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'facebook-login'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>login.html
+
+<span class="nt">&lt;div&gt;</span>
+    <span class="c">&lt;!--페이스북 로그인 페이지로 보냄, 클라이언트 id와 리다이렉트 uri를 포함--&gt;</span>
+    <span class="c">&lt;!--페이스북 다이얼로그로 auth요청을 보내는 과정이다.--&gt;</span>
+    <span class="c">&lt;!--클라이언트 아이디는 내 앱으로 부터 요청을 보내는 것을 의미 --&gt;</span>
+    <span class="c">&lt;!--리다이렉트는 로그인 후 돌아오는 페이지, request에 code를 받아서 돌아온다--&gt;</span>
+    <span class="c">&lt;!--code는 view함수에서 진행됨 --&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://www.facebook.com/v3.0/dialog/oauth?
+  client_id=631395940565915
+  &amp;redirect_uri=http://localhost:8000/members/facebook-login/&amp;scope=email,public_profile"</span> <span class="na">class=</span><span class="s">"btn btn-primary"</span><span class="nt">&gt;</span>페이스북 로그인<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">views</span><span class="o">.</span><span class="n">py</span>
+<span class="k">def</span> <span class="nf">facebook_login</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># 템플릿에서 첫번째 과정을 거친 후 request에서 code 전달됨(authentication code)
+</span>    <span class="c1"># 전달받은 인증 코드를 사용해서 access token 을 얻음
+</span>    <span class="n">code</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'code'</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://graph.facebook.com/v3.0/oauth/access_token'</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'client_id'</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">FACEBOOK_APP_ID</span><span class="p">,</span>
+        <span class="s">'redirect_uri'</span><span class="p">:</span> <span class="s">'http://localhost:8000/members/facebook-login/'</span><span class="p">,</span>
+        <span class="s">'client_secret'</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">FACEBOOK_APP_SECRET_CODE</span><span class="p">,</span>
+        <span class="s">'code'</span><span class="p">:</span> <span class="n">code</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1"># access code를 받기위해 다시 요청을 보냄
+</span>    <span class="c1"># 클라이언트 아이디, 리다이렉트 uri에 덧붙여
+</span>    <span class="c1"># 시크릿 코드와 전달받은 인증 코드를  params에 덧붙여 보낸다
+</span>    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="c1"># 제이슨은 텍스트로 전달된 엑세스 토큰을 딕트 형태로 변환 시켜주는 파이선 모듈이다
+</span>    <span class="c1"># 제이슨을 통해서 토큰을 변수에 할당
+</span>    <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">response_dict</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="n">response_dict</span><span class="p">[</span><span class="s">'access_token'</span><span class="p">]</span>
+
+    <span class="c1"># 얻은 토큰을 통해 해당 사용자 고유의 user_id를 받을 수 있다
+</span>    <span class="c1"># 얻은 토큰을 디버그 해주는 과정
+</span>    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://graph.facebook.com/debug_token'</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'input_token'</span><span class="p">:</span> <span class="n">access_token</span><span class="p">,</span>
+        <span class="s">'access_token'</span><span class="p">:</span> <span class="n">f</span><span class="s">'{settings.FACEBOOK_APP_ID}|{settings.FACEBOOK_APP_SECRET_CODE}'</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1"># response에는 기본적인 유져 프로필과 같은 사항이 담기게 된다
+</span>    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+
+    <span class="c1"># 그래픽api를 통해서 추가적으로 필요한 정보를 탐색해본 후 얻어온다
+</span>    <span class="c1"># 여기서부터는 그래픽 api 사용법 문서를 참고해서 진행함
+</span>    <span class="c1"># email과 같이 그래픽에서 얻어오지 못한 것은 주소창의 스코프를 이용한다??
+</span>    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://graph.facebook.com/v3.0/me'</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'access_token'</span><span class="p">:</span> <span class="n">access_token</span><span class="p">,</span>
+        <span class="s">'fields'</span><span class="p">:</span> <span class="s">','</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="s">'id'</span><span class="p">,</span>
+            <span class="s">'name'</span><span class="p">,</span>
+            <span class="s">'first_name'</span><span class="p">,</span>
+            <span class="s">'last_name'</span><span class="p">,</span>
+            <span class="s">'picture'</span><span class="p">,</span>
+        <span class="p">])</span>
+    <span class="p">}</span>
+    <span class="c1"># 필드의 정보를 담은 응답을 얻는다
+</span>    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">response_dict</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="n">facebook_user_id</span> <span class="o">=</span> <span class="n">response_dict</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">response_dict</span><span class="p">[</span><span class="s">'first_name'</span><span class="p">]</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">response_dict</span><span class="p">[</span><span class="s">'last_name'</span><span class="p">]</span>
+    <span class="n">url_img_profile</span> <span class="o">=</span> <span class="n">response_dict</span><span class="p">[</span><span class="s">'picture'</span><span class="p">][</span><span class="s">'data'</span><span class="p">][</span><span class="s">'url'</span><span class="p">]</span>
+
+    <span class="c1"># 받은 정보를 get_or_create를 이용해 새로 유져를 생성한다
+</span>    <span class="c1"># 여기서 - if문을 사용하지 않고 작성
+</span>    <span class="c1">#       - default값으로 지정해주는 방법:
+</span>    <span class="c1">#             get 에는 username만 사용되고 defaults로
+</span>    <span class="c1">#             지정된 값들은 create 할 때 사용된다
+</span>    <span class="n">user</span><span class="p">,</span> <span class="n">user_created</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">facebook_user_id</span><span class="p">,</span>
+        <span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">'first_name'</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span>
+            <span class="s">'last_name'</span><span class="p">:</span> <span class="n">last_name</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">'index'</span><span class="p">)</span>
+</code></pre></div></div>
+
+  </div>
+
+  <!-- To enable Disqus comments, comment out this code and insert your Disqus shortname -->
+
+  <!--  -->
+
+</article>
+
+    </div>
+</div>
+
+      
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>
+      
+    <!-- Bootstrap Core JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="/js/index.js"></script>
+
+  </body>
+
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    $('#page-content-wrapper').fadeIn();
+    });
+    </script>
+
+</html>
