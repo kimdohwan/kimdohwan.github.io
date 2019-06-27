@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[1.Linked List] Singly Linked List"
+title:  "1. Linked List - Singly Linked List"
 categories: DataStructure 
 ---
 singly linked list

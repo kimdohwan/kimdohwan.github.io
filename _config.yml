@@ -1,11 +1,11 @@
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
+title: Doh's Dev Blog
+email: dosio0102@gmail.com
 baseurl: "" # the subpath of your site, e.g. /blog
 #url: "http://yourdomain.com" # the base hostname & protocol for your site
 
 # Sidebar settings
-description: One sentence introducing yourself or what you do
+description: Doh Blog
 
 # Social icons
 facebook: Dohwan Kim
