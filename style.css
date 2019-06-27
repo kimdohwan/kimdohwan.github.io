@@ -68,6 +68,9 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
   color: #a2a3a3; }
 
 /* ------------ Content Style -------------- */
+#content-header {
+  text-align: center; }
+
 .content {
   flex: 1;
   padding: 80px 30px;
