@@ -102,7 +102,7 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
 
   font-family: 'Nanum Myeongjo', serif;
   background-color: #fff;
-  font-size: 16px;
+  font-size: x-medium;
   line-height: 1.5em;
   color: #000;
   font-weight: 300;
@@ -126,6 +126,7 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
 }
 
 .content h2 {
+    font-size: x-large;
     font-weight: normal;
     margin-bottom: 5px;
     color: #000;
@@ -133,6 +134,20 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
 }
 
 .content h3 {
+    padding: 7px 10px 5px;
+    margin: 0 0 10px;
+    border-left: 5px solid #666;
+    background-color: #fafafa;
+    color: #333;
+    font-size: large;
+    //font-weight: normal;
+    //margin-bottom: 5px;
+    //color: #000;
+    //font-weight: bold;
+}
+
+.content h4 {
+    font-size: larger;
     font-weight: normal;
     margin-bottom: 5px;
     color: #000;
@@ -143,7 +158,6 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
 {
     font-family: 'Nanum Myeongjo', serif;
     background-color: #fff;
-    font-size: 16px;
     line-height: 24px;
     color: #000;
     font-weight: 300;
@@ -153,7 +167,6 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
 
     font-family: 'Nanum Myeongjo', serif;
     background-color: #fff;
-    font-size: 16px;
     line-height: normal;
     font-style: normal;
     color: #000;
@@ -165,14 +178,22 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
 {
     border:none;
     width: 100%;
+    padding: unset;
+    font-size: small;
 
     /* Generic font style */
-    font-family: 'Nanum Myeongjo', serif;
-    font-size: 13px;
-    font-weight: normal;
+    font-family: monospace;
+    //font-weight: normal;
     line-height: 19.2px;
     word-spacing: 0px;
     color:#000;
+}
+
+.content blockquote {
+  font-size: inherit;
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    border-left: 5px solid #eee;
 }
 
 .content img
@@ -251,7 +272,7 @@ input[data-function*='swipe']:checked ~ .sidebar {
 
       font-family: 'Nanum Myeongjo', serif;
       background-color: #fff;
-      font-size: 17px;
+      font-size: medium;
       line-height: normal;
       font-style: normal;
       color: #000;

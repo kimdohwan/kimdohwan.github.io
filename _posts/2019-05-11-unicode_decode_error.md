@@ -28,16 +28,18 @@ categories: AWS
 #### issue 2
 - 사용한 명령어/에러 발생 시점  
 ```eb init --profile <credential key name>```, 위 과정 진행 후 CodeCommit 설정 시 
-- 에러 구문
-```
-File "/home/doh/.local/share/virtualenvs/Project-ijLdZslq/lib/python3.6/site-packages/ebcli/objects/sourcecontrol.py", line 294, in set_up_ignore_file
-    for line in f:
-File "/home/doh/.local/share/virtualenvs/Project-ijLdZslq/lib/python3.6/encodings/ascii.py", line 26, in decode
-    return codecs.ascii_decode(input, self.errors)[0]
-UnicodeDecodeError: 'ascii' codec can't decode byte 0xec in position 8: ordinal not in range(128)
 
-2019-03-12 17:59:33,113 (INFO) eb : UnicodeDecodeError - 'ascii' codec can't decode byte 0xec in position 8: ordinal not in range(128)
-```
+- 에러 구문
+    ```
+    File "/home/doh/.local/share/virtualenvs/Project-ijLdZslq/lib/python3.6/site-packages/ebcli/objects/sourcecontrol.py", line 294, in set_up_ignore_file
+        for line in f:
+    File "/home/doh/.local/share/virtualenvs/Project-ijLdZslq/lib/python3.6/encodings/ascii.py", line 26, in decode
+        return codecs.ascii_decode(input, self.errors)[0]
+    UnicodeDecodeError: 'ascii' codec can't decode byte 0xec in position 8: ordinal not in range(128)
+    
+    2019-03-12 17:59:33,113 (INFO) eb : UnicodeDecodeError - 'ascii' codec can't decode byte 0xec in position 8: ordinal not in range(128)
+    ```
+
 - 해결 과정  
 
 위의 과정을 겪었기에 encoding 관련 설정은 문제가 아니라고 판단.  
@@ -46,7 +48,8 @@ UnicodeDecodeError: 'ascii' codec can't decode byte 0xec in position 8: ordinal 
 
 같은 문제를 해결한 블로그 발견. 에러 구문에 적힌 파일을 뒤져서 .gitignore 에서 문제가 발생했음을 인지함.  
 
-에러 구문(File "/home/doh/.local/share/virtualenvs/Project-ijLdZslq/lib/python3.6/site-packages/ebcli/objects/sourcecontrol.py", line 294, in set_up_ignore_file for line in f:) 에 나온 suorcecontrol.py line 294 를 확인해보니 .gitignore 에 관한 코드가 존재했고 .gitignore 에 적어둔 한글 주석을 모두 지워주니 잘 동작하게 되었다.  
+에러 구문(File "/home/doh/.local/share/virtualenvs/Project-ijLdZslq/lib/python3.6/site-packages/ebcli/objects/sourcecontrol.py", line 294, in set_up_ignore_file for line in f:) 에 나온 suorcecontrol.py line 294 를 확인해보니 .gitignore 에 관한 코드가 존재했고 .gitignore 에 적어둔 한글 주석을 모두 지워주니 잘 동작하게 되었다.
+  
 ```
 		def set_up_ignore_file(self):
 		    if not os.path.exists('.gitignore'):

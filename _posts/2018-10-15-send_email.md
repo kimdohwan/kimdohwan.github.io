@@ -11,7 +11,7 @@ categories: Django
     2.  보안수준 낮은 앱 허용
 -   settings.py
     
-    ```python1
+    ```python
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587
@@ -24,7 +24,7 @@ categories: Django
     
 -   test 'send email' in shell\_plus
     
-    ```python1
+    ```
     >>> from django.core.mail import EmailMessage
     >>> email = EmailMessage('subject text', 'body text', to=['id@gmail.com'])
     >>> email.send()
@@ -40,7 +40,7 @@ categories: Django
 
 -   api.py(view)
     
-    ```python1
+    ```
     class UserList(APIView):
       def post(self, request):
           serializer = UserSerializer(data=request.data)
@@ -52,7 +52,7 @@ categories: Django
     
 -   serializer.py
     
-    ```python1
+    ```
     class UserSerializer(serializers.ModelSerializer):
       username = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
       password = serializers.SlugField(max_length=12, min_length=1, allow_blank=False, write_only=True)
@@ -101,7 +101,7 @@ categories: Django
     
 -   token.py
     
-    ```python1
+    ```
     class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
       def _make_hash_value(self, user, timestamp):
           return (
@@ -112,14 +112,14 @@ categories: Django
     
 -   html 파일(이메일에 발송될 내용)
     
-    ```python1
+    ```
     { { user.nickname } } 님 링크를 클릭해 계정을 활성화 해주세요
     http://{{ domain }}{ % url 'user:activate' uidb64=uid token=token % }
     ```
     
 -   api.py(view) 유져가 이메일 링크를 누르면 동작하는 부분
     
-    ```python1
+    ```
     class UserActivate(APIView):
       permission_classes = (permissions.AllowAny,)
     
