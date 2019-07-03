@@ -10,7 +10,7 @@ i {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px; }
+  font-size: small; }
 
 th, td {
   text-align: left;
@@ -111,10 +111,10 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
   border-left: 5px solid #666;
   background-color: #fafafa;
   color: #333;
-  font-size: large; }
+  font-size: larger; }
 
 .content h4 {
-  font-size: larger;
+  font-size: medium;
   font-weight: normal;
   margin-bottom: 5px;
   color: #000;
