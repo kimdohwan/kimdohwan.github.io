@@ -4,15 +4,6 @@ title: '김 도 환'
 permalink: /portfolio/
 ---
 
-### Skill & Experience
-
-| Language           |  **Python, HTML, CSS, SQL**  |
-| Web Framework  |  **Django, Flask**  |
-| Cloud ( AWS ) | **EC2, Elastic Beanstalk, Lambda**  |
-| ETC | **Github ( VCS ), Ubuntu ( OS ), Postgresql ( DB )** |
-
-<br>
-
 ### Portfolio & Project
 
 <br>
@@ -21,6 +12,7 @@ permalink: /portfolio/
 
 | 개 요 |  경기도 노인 요양시설 현황을 제공하는 서비스( 개인 ) |
 | GitHub | [https://github.com/kimdohwan/Place-For-Elderly](https://github.com/kimdohwan/Place-For-Elderly)  |
+| 진행 내용 | [https://github.com/kimdohwan/MyStudy/blob/master/project/PlaceForElderly.md](https://github.com/kimdohwan/MyStudy/blob/master/project/PlaceForElderly.md) |
 | 배포 URL |  [https://j6sqja4hg2.execute-api.ap-northeast-2.amazonaws.com/production](https://j6sqja4hg2.execute-api.ap-northeast-2.amazonaws.com/production) |
 
 <br>
@@ -40,3 +32,15 @@ permalink: /portfolio/
 | GitHub | [https://github.com/kimdohwan/Wadiz](https://github.com/kimdohwan/Wadiz) |
 |후 기 | [https://kimdohwan.github.io/etc/2018/10/02/wadiz.html](https://kimdohwan.github.io/etc/2018/10/02/wadiz.html) |
 | GitBook | [https://wps-8th-wadiz.gitbook.io/project/user](https://wps-8th-wadiz.gitbook.io/project/user) ( User 부문만 해당 ) |
+
+<br>
+
+### Skill & Experience
+
+| Language           |  **Python, HTML, CSS, SQL**  |
+| Web Framework  |  **Django, Flask**  |
+| Cloud ( AWS ) | **EC2, Elastic Beanstalk, Lambda**  |
+| ETC | **Github ( VCS ), Ubuntu ( OS ), Postgresql ( DB )** |
+
+
+
