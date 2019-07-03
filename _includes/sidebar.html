@@ -11,15 +11,18 @@
         <div class="menu">
 
             <div class="navigation">
-                <ul>
-                    {{ site.pages.title }}
+                <!--<ul>-->
+                <!--{{ site.pages.title }}-->
 
-                    {% for my_page in site.pages %}
-                    {% if my_page.title %}
-                    <li><a href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
+                <!--{% for my_page in site.pages %}-->
+                <!--{% if my_page.title %}-->
+                <!--<li><a href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></li>-->
+                <!--{% endif %}-->
+                <!--{% endfor %}-->
+                <!--</ul>-->
+                <li>
+                    <a href="/">Home</a>
+                </li>
             </div>
 
 
@@ -38,7 +41,10 @@
             <hr>
 
             <!--<div id="picture" style="background-image: url(http://www.naturaloil.ph/wp-content/uploads/2015/11/John_Doe.jpg)"></div>-->
-            <p>{{site.description}}</p>
+            <!--<p>{{site.description}}</p>-->
+            <li>
+                <a href="/portfolio">Portfolio</a>
+            </li>
 
             <hr>
 
