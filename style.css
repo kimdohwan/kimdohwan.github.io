@@ -15,7 +15,7 @@ table {
 th, td {
   text-align: left;
   padding: 5px 10px;
-  border-bottom: 1px solid #eee; }
+  border-bottom: 1px ridge #eee; }
 
 th.title {
   width: 30%; }
@@ -157,6 +157,10 @@ input[data-function*='swipe']:checked ~ label[data-function*='swipe'] {
   max-width: 100%;
   margin: 0 0 1rem;
   border-radius: 2px; }
+
+.post-content a {
+  color: #337ab7;
+}
 
 input[data-function*='swipe']:checked ~ .content {
   transform: translate3d(180px, 0px, 0px); }
