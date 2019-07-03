@@ -11,24 +11,30 @@ permalink: /portfolio/
 | Cloud ( AWS ) | **EC2, Elastic Beanstalk, Lambda**  |
 | ETC | **Github ( VCS ), Ubuntu ( OS ), Postgresql ( DB )** |
 
-
+<br>
 
 ### Portfolio & Project
 
-#### Place For Elderly ( 2019.05 - 진행중 )
+<br>
+
+**Place For Elderly ( 2019.05 - 진행중 )**
 
 | 개 요 |  경기도 노인 요양시설 현황을 제공하는 서비스( 개인 ) |
 | GitHub | [https://github.com/kimdohwan/Place-For-Elderly](https://github.com/kimdohwan/Place-For-Elderly)  |
 | 배포 URL |  [https://j6sqja4hg2.execute-api.ap-northeast-2.amazonaws.com/production](https://j6sqja4hg2.execute-api.ap-northeast-2.amazonaws.com/production) |
 
-#### Brunch RSS Feed ( 2019.01 - 2019.04 )
+<br>
+
+**Brunch RSS Feed ( 2019.01 - 2019.04 )**
 
 | 개 요 | Brunch 웹 사이트 글의 RSS Feed를 생성해주는 서비스( 개인 ) |
 | GitHub | [https://github.com/kimdohwan/Brunch-RSS-Feed](https://github.com/kimdohwan/Brunch-RSS-Feed) |
 | 후 기 | [https://kimdohwan.github.io/etc/2019/06/02/brunch_project.html](https://kimdohwan.github.io/etc/2019/06/02/brunch_project.html) |
 | 배포 URL | [https://www.idontknow.kr/](https://www.idontknow.kr/) |
 
-#### Wadiz ( 2018.07 - 2018.08 )
+<br>
+
+**Wadiz ( 2018.07 - 2018.08 )**
 
 | 개 요 | Wadiz 웹 사이트의 펀딩/유져 기능에 해당되는 RESTful API 구현 ( 팀 3명 ) |
 | GitHub | [https://github.com/kimdohwan/Wadiz](https://github.com/kimdohwan/Wadiz) |
