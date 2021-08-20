@@ -31,7 +31,7 @@ layout: Stylesheet
     --searchbox-shadow-color:  hsl(204, 63.0%, 78.8%);
     --heading-font-family: Georgia, serif;
     --primary-font-family: sans-serif;
-    --secondary-font-family: sans-serif;
+    --secondary-font-family: sans-serif, RIDIBaTang;
 }
 
 
