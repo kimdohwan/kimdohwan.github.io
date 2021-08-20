@@ -63,7 +63,7 @@ body {
     border-left: 1px solid var(--primary-border-color);
     border-right: 1px solid var(--primary-border-color);
     border-bottom: 1px solid var(--primary-border-color);
-    width: 60%;
+    width: 80%;
     position: absolute;
     top: 0px;
 }
