@@ -29,9 +29,9 @@ layout: Stylesheet
     --anchor-link-color: hsl(205, 12%, 70%);
     --search-placeholder-color: hsl(var(--main-hue), 0%, 60.0%);
     --searchbox-shadow-color:  hsl(204, 63.0%, 78.8%);
-    --heading-font-family: Georgia, serif;
-    --primary-font-family: sans-serif;
-    --secondary-font-family: sans-serif, RIDIBaTang;
+    --heading-font-family: RIDIBaTang, serif;
+    --primary-font-family: RIDIBaTang;
+    --secondary-font-family: RIDIBaTang, sans-serif;
 }
 
 
@@ -126,7 +126,8 @@ h3, h4, h5, h6 {
 a, p, ul, li, ol, table, span, blockquote {
     /*color: var(--primary-text-color);*/
     font-family: var(--secondary-font-family);
-    font-size: 15px; /* Let's set the font-size to something old-man friendly */
+    font-size: 14px; /* Let's set the font-size to something old-man friendly */
+    /*display: inline-block;*/
 }
 
 p a,
@@ -167,50 +168,52 @@ img {
 }
 
 
-/*code {*/
-/*    font-family: Consolas, 'Courier New', Courier, monospace;*/
-/*    display: inline-block;*/
-/*    overflow: auto !important;*/
-/*    white-space: pre-line !important;*/
-/*    word-wrap: break-word !important;*/
-/*    padding: 2px 2px 2px 2px;*/
-/*    vertical-align: middle;*/
-/*    padding: 2px 2px 2px 2px;*/
-/*    border: 1px solid var(--secondary-border-color);*/
-/*    border-radius: 4px;*/
-/*}*/
+code {
+    font-family: Consolas, 'Courier New', Courier, monospace;
+    display: inline-block;
+    overflow: auto !important;
+    /*white-space: pre-line !important;*/
+    word-wrap: break-word !important;
+    padding: 0px 2px 0px 2px;
+    vertical-align: middle;
+    border: 1px solid #e1d0d0;
+    border-radius: 4px;
+    background: #eae3e3;
+    margin-right: 4px;
+}
 
-/*.regular-sans code {*/
-/*    padding: 20px;*/
-/*    background-color: var(--secondary-bg-color);*/
-/*    border-radius: 5px;*/
-/*    border: none;*/
-/*    font-family: var(--secondary-font-family) !important;*/
-/*}*/
+.regular-sans code {
+    padding: 20px;
+    background-color: var(--secondary-bg-color);
+    border-radius: 5px;
+    border: none;
+    font-family: var(--secondary-font-family) !important;
+}
 
-/*.serif code {*/
-/*    padding: 20px;*/
-/*    background-color: var(--secondary-bg-color);*/
-/*    border-radius: 5px;*/
-/*    border: none;*/
-/*    font-family: 'EB Garamond', Georgia, serif !important;*/
-/*}*/
+.serif code {
+    padding: 20px;
+    background-color: var(--secondary-bg-color);
+    border-radius: 5px;
+    border: none;
+    font-family: 'EB Garamond', Georgia, serif !important;
+}
 
 
-/*pre code {*/
-/*    font-family: Consolas, 'Courier New', Courier, monospace;*/
-/*    display: inline-block;*/
-/*    overflow: auto !important;*/
-/*    !*white-space: pre-line !important;*!*/
-/*    word-wrap: break-word !important;*/
-/*    padding: 15px 15px 15px 15px;*/
-/*    vertical-align: middle;*/
-/*    width: 90%;*/
-/*    background-color: var(--secondary-bg-color);*/
-/*    border: 1px solid var(--secondary-border-color);*/
-/*    border-radius: 5px;*/
-/*    color: var(--primary-text-color);*/
-/*}*/
+pre code {
+    font-family: Consolas, 'Courier New', Courier, monospace;
+    display: inline-block;
+    overflow: auto !important;
+    /*white-space: pre-line !important;*/
+    word-wrap: break-word !important;
+    padding: 15px 15px 15px 15px;
+    vertical-align: middle;
+    width: 90%;
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--secondary-border-color);
+    border-radius: 5px;
+    color: var(--primary-text-color);
+    line-height: 20px;
+}
 
 
 blockquote:before {
@@ -821,7 +824,8 @@ hr {
     margin-left: 20px !important;
     margin-right: 30px;
     font-family:  var(--secondary-font-family);
-    font-size: 15px;
+    font-size: 12px;
+    line-height: 17px;
 }
 
 .tags {
@@ -850,7 +854,7 @@ hr {
 }
 
 .content {
-  line-height: 20px;
+  line-height: 25px;
 }
 
 .content a {

@@ -1,7 +1,7 @@
 @font-face {
     font-family: RIDIBaTang;
     src: url(fonts/RIDIBatang.otf) format('woff');
-    font-weight: normal;
+    font-weight: 0;
     font-style: normal;
 }
 
