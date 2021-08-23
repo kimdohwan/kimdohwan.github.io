@@ -97,23 +97,6 @@
                 }
             });
 
-            var index = new lunr.Index;
-            index.ref('id');
-            index.field('title', {boost: 200});
-            index.field('content', {boost: 2});
-            index.field('url');
-            index.metadataWhitelist = ['position']
-
-            for (var i in docs) {
-                index.add({
-                    id: i,
-                    title: docs[i].title,
-                    content: docs[i].content,
-                    url: docs[i].url
-                });
-            }
-
-
             searchLoaded(index, docs);
         }).catch(function(err) {
             console.warn("Error processing the search-data for lunrjs",err);
