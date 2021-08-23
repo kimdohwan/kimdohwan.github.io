@@ -124,9 +124,9 @@ h3, h4, h5, h6 {
 }  
 
 a, p, ul, li, ol, table, span, blockquote {
-    color: var(--primary-text-color);
-    font-family:   var(--secondary-font-family);
-    font-size: 15px;  /* Let's set the font-size to something old-man friendly */
+    /*color: var(--primary-text-color);*/
+    font-family: var(--secondary-font-family);
+    font-size: 15px; /* Let's set the font-size to something old-man friendly */
 }
 
 p a,
@@ -167,51 +167,50 @@ img {
 }
 
 
-code {
-    font-family: Consolas, 'Courier New', Courier, monospace;
-    font-family: Consolas, 'Courier New', Courier, monospace;
-    display: inline-block;
-    overflow: auto !important;
-    white-space: pre-line !important;       
-    word-wrap: break-word !important;       
-    padding: 2px 2px  2px 2px;
-    vertical-align:middle;
-    padding: 2px 2px 2px 2px;
-    border: 1px solid var(--secondary-border-color);
-    border-radius: 4px;
-}
+/*code {*/
+/*    font-family: Consolas, 'Courier New', Courier, monospace;*/
+/*    display: inline-block;*/
+/*    overflow: auto !important;*/
+/*    white-space: pre-line !important;*/
+/*    word-wrap: break-word !important;*/
+/*    padding: 2px 2px 2px 2px;*/
+/*    vertical-align: middle;*/
+/*    padding: 2px 2px 2px 2px;*/
+/*    border: 1px solid var(--secondary-border-color);*/
+/*    border-radius: 4px;*/
+/*}*/
 
-.regular-sans code {
-    padding: 20px;
-    background-color: var(--secondary-bg-color);
-    border-radius: 5px;
-    border: none;
-    font-family: var(--secondary-font-family) !important;
-}
+/*.regular-sans code {*/
+/*    padding: 20px;*/
+/*    background-color: var(--secondary-bg-color);*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    font-family: var(--secondary-font-family) !important;*/
+/*}*/
 
-.serif code {
-    padding: 20px;
-    background-color: var(--secondary-bg-color);
-    border-radius: 5px;
-    border: none;
-    font-family: 'EB Garamond', Georgia, serif !important;
-}
+/*.serif code {*/
+/*    padding: 20px;*/
+/*    background-color: var(--secondary-bg-color);*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    font-family: 'EB Garamond', Georgia, serif !important;*/
+/*}*/
 
 
-pre code {
-    font-family: Consolas, 'Courier New', Courier, monospace;
-    display: inline-block;
-    overflow: auto !important;
-    white-space: pre-line !important;       
-    word-wrap: break-word !important;       
-    padding: 15px 15px  15px 15px;
-    vertical-align:middle;
-    width: 90%;
-    background-color: var(--secondary-bg-color);
-    border: 1px solid var(--secondary-border-color);
-    border-radius: 5px;
-    color: var(--primary-text-color);
-}
+/*pre code {*/
+/*    font-family: Consolas, 'Courier New', Courier, monospace;*/
+/*    display: inline-block;*/
+/*    overflow: auto !important;*/
+/*    !*white-space: pre-line !important;*!*/
+/*    word-wrap: break-word !important;*/
+/*    padding: 15px 15px 15px 15px;*/
+/*    vertical-align: middle;*/
+/*    width: 90%;*/
+/*    background-color: var(--secondary-bg-color);*/
+/*    border: 1px solid var(--secondary-border-color);*/
+/*    border-radius: 5px;*/
+/*    color: var(--primary-text-color);*/
+/*}*/
 
 
 blockquote:before {
